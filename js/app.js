@@ -1,10 +1,10 @@
-const arr = [];
+let arr = [];
 
 const loadProducts = (url) => {
    fetch(url)
       .then((res) => res.json())
       .then((data) => {
-         arr.push(data);
+         arr = data;
          showProducts(data);
       });
 };
@@ -13,6 +13,7 @@ loadProducts('https://fakestoreapi.com/products');
 
 // show all product in UI
 const showProducts = (products) => {
+   // console.log(products)
    setInnerText('total_products', products.length);
    
    document.getElementById("all-products").innerHTML = "";
@@ -114,9 +115,10 @@ const updateTotal = () => {
 // search by category
 document.getElementById("search-btn").addEventListener("click", function () {
    const inputField = document.getElementById("input-value").value;
-   const searchedProduct = arr[0].find((p) =>
-     p.category.startsWith(`${inputField}`)
+   const searchedProduct = arr.filter((p) =>
+     p.title.toLowerCase().includes(inputField.toLowerCase())
    );
+   document.getElementById("input-value").value = ''
    showProducts(searchedProduct);
  });
 
